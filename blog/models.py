@@ -1,3 +1,4 @@
+from email.policy import default
 from enum import unique
 from django.db import models
 from django.urls import reverse 
@@ -7,25 +8,25 @@ from ckeditor.fields import RichTextField
 
 # Create your models here.
 class Categoria(models.Model):
-    nombre = models.CharField(max_length=100, unique=True)
+    name = models.CharField(max_length=100, unique=True)
     description = models.TextField()
     slug = models.SlugField(unique=True, null=True, blank=True)
     create = models.DateField(auto_now=False, auto_now_add=True)
     update = models.DateField(auto_now=True, auto_now_add=False)
 
     def __str__(self) -> str:
-        return self.nombre
+        return self.name
 
-    def save(self):
+    def save(self, **kwargs):
         if (self.slug == '') or (self.slug == None):       
-            tslug = defaultfilters.slugify(self.nombre)
+            tslug = defaultfilters.slugify(self.name)
             tempp = Categoria.objects.filter(slug__startswith=tslug)
             if len(tempp) > 0:
-                tslug = defaultfilters.slugify(self.nombre)+str(len(tempp))
+                tslug = defaultfilters.slugify(self.name)+str(len(tempp))
             self.slug = tslug
         else:
             print(self.slug)
-        super().save()
+        super().save(**kwargs)
 
 class Articulo(models.Model):
     title = models.CharField(max_length=100)
@@ -42,7 +43,7 @@ class Articulo(models.Model):
     def __str__(self) -> str:
         return self.title
 
-    def save(self): 
+    def save(self, **kwargs): 
         if (self.slug == '') or (self.slug == None):       
             tslug = defaultfilters.slugify(self.title)
             tempp = Articulo.objects.filter(slug__startswith=tslug)
@@ -51,4 +52,4 @@ class Articulo(models.Model):
             self.slug = tslug
         else:
             print(self.slug)
-        super().save()
+        super().save(**kwargs)

@@ -7,6 +7,8 @@
     <title>{{ art_title }}</title>
 </head>
 <body>
-    {{ art_description }}
+    {% for cat in catgs %}
+        <p>{{ cat.nombre }}</p><br>
+    {% endfor %}
 </body>
 </html>
