@@ -1,6 +1,7 @@
 from email.policy import default
 from enum import unique
 from django.db import models
+from django.conf import settings
 from django.urls import reverse 
 from django.template import defaultfilters
 from ckeditor.fields import RichTextField
@@ -33,6 +34,7 @@ class Articulo(models.Model):
     description = RichTextField(blank=True, null=True)
     categorias = models.ManyToManyField(Categoria)
     slug = models.SlugField(unique=True, null=True, blank=True)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     create = models.DateField(auto_now=False, auto_now_add=True)
     update = models.DateField(auto_now=True, auto_now_add=False)
 

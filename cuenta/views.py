@@ -23,3 +23,20 @@ class Logout(View):
             'form' : '',
         }
         return render(request, '', parameters)
+
+
+class DashBoardView(View):
+    def get(self, request):
+        parmts = {}
+        return render(request, '', parmts)
+
+
+class ArticlesView(View):
+    def get(self, request):
+        parmts = {}
+        return render(request, '', parmts)
+
+class CategoriesView(View):
+    def get(self, request):
+        parmts = {}
+        return render(request, '', parmts)

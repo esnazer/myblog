@@ -6,7 +6,7 @@ from blog.views import BlogView, ArticuloView, CategoriasView
 class TestUrls(SimpleTestCase):
 
     def test_blog_url_resolved(self):
-        url = reverse('articulo-blog')
+        url = reverse('articulo-blog', args=['some-id'])
         self.assertEqual(resolve(url).func.view_class, ArticuloView)
 
     def test_blog_url_resolved(self):

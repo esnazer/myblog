@@ -31,3 +31,13 @@ class CategoriasView(View):
             'catgs': categorys
         }
         return render(request, 'blog/categorias.html', parmts)
+
+class CategoriaView(View):
+    def get(self, request, **kwargs):
+        sel_catg = kwargs['categoria']
+        articles = Articulo.objects.filter(categorias__slug=sel_catg)
+        parmts = {
+            'catg': kwargs['categoria'],
+            'articles': articles
+        }
+        return render(request, 'blog/categoria.html', parmts)
