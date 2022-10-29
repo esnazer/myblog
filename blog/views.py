@@ -18,8 +18,7 @@ class ArticuloView(View):
         id = kwargs['id']
         article = Articulo.objects.filter(pk=id).first()
         parmts = {
-            'art_title': article.title,
-            'art_description': article.description,
+            'article': article,
             'alert': ''
         }
         return render(request, 'blog/articulo.html', parmts)

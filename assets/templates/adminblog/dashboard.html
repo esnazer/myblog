@@ -1,0 +1,113 @@
+{% extends "adminblog/base_admin.html" %}
+{% load static %}
+
+{% block title %}Dashboard{% endblock %}
+{% block cdnbasic %}
+ <!-- uPlot -->
+<link rel="stylesheet" type="text/css" href="{% static 'plugins/uplot/uPlot.min.css' %}">
+{% endblock %}
+
+{% block subtitl %}Dashboard{% endblock %}
+{% block contenido %}
+<section class="content">  
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-4 col-6">
+                <div class="card bg-info">
+                    <div class="card-body d-flex flex-col align-items-center">
+                        <div class="d-none d-md-inline flex-fill mx-3">
+                            <i class="fa-solid fa-newspaper text-dark" style="font-size: 50px;"></i>
+                        </div>
+                        <div class="flex-fill mx-2">
+                            <h4>Articulos</h4>
+                            <h2>{{cnt_articulos}}</h2>
+                        </div>
+                    </div>
+                    <a class="card-footer d-flex justify-content-center align-items-center" href="#">Gestionar&nbsp;
+                        <i class="fa-solid fa-file-pen"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-4 col-6">
+                <div class="card bg-info">
+                    <div class="card-body d-flex flex-col align-items-center">
+                        <div class="d-none d-md-inline flex-fill mx-3">
+                            <i class="fas fa-chart-bar text-dark" style="font-size: 50px;"></i>
+                        </div>
+                        <div class="flex-fill mx-2">
+                            <h4>Categorias</h4>
+                            <h2>{{cnt_categorias}}</h2>
+                        </div>
+                    </div>
+                    <a class="card-footer d-flex justify-content-center align-items-center" href="#">Gestionar&nbsp;
+                        <i class="fa-solid fa-file-pen"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-4 col-6">
+                <div class="card bg-info">
+                    <div class="card-body d-flex flex-col align-items-center">
+                        <div class="d-none d-md-inline flex-fill mx-3">
+                            <i class="fa-solid fa-newspaper text-dark" style="font-size: 50px;"></i>
+                        </div>
+                        <div class="flex-fill mx-2">
+                            <h4>Comentarios</h4>
+                            <h2>{{cnt_articulos}}</h2>
+                        </div>
+                    </div>
+                    <a class="card-footer d-flex justify-content-center align-items-center" href="#">Gestionar&nbsp;
+                        <i class="fa-solid fa-file-pen"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="container-fluid">
+                <canvas id="myChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%; width: 100%;"></canvas>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<!-- uPlot -->
+<script src="{% static 'plugins/uplot/uPlot.iife.min.js' %}"></script>
+<!-- ChartJS -->
+<script src="{% static 'plugins/chart.js-3.9.1/chart.min.js' %}"></script>
+<script>
+    
+const ctx = document.getElementById('myChart').getContext('2d');
+const myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: [
+            {% for art in articulos %}
+                '{{art.slug}}',
+            {% endfor %}
+        ],
+        datasets: [
+            {% for art in articulos %}
+                {
+                    label: '# of Votes',
+                    data: [
+                        {{art.update|date:"n"}}
+                    ],
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderColor: 'rgb(75, 192, 192)',
+                    borderWidth: 1
+                },
+            {% endfor %}
+        ]
+    },
+    options: {
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+});
+
+</script>
+{% endblock %}
