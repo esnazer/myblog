@@ -52,7 +52,7 @@
                         </div>
                         <div class="flex-fill mx-2">
                             <h4>Comentarios</h4>
-                            <h2>{{cnt_articulos}}</h2>
+                            <h2>0</h2>
                         </div>
                     </div>
                     <a class="card-footer d-flex justify-content-center align-items-center" href="#">Gestionar&nbsp;
@@ -78,26 +78,59 @@
 <script>
     
 const ctx = document.getElementById('myChart').getContext('2d');
+
+function datos(){
+    const db = new Map([
+        ['01',0],
+        ['02',0],
+        ['03',0],
+        ['04',0],
+        ['05',0],
+        ['06',0],
+        ['07',0],
+        ['08',0],
+        ['09',0],
+        ['10',0],
+        ['11',0],
+        ['12',0],
+    ]);
+    {% regroup articulos by update|date:"n" as fechas %}
+    {% for fecha in fechas %}
+        {%if fecha.grouper == '1' %}db.set("01",{{fecha.list|length}});{% endif %}
+        {%if fecha.grouper == '2' %}db.set("02",{{fecha.list|length}});{% endif %}
+        {%if fecha.grouper == '3' %}db.set("03",{{fecha.list|length}});{% endif %}
+        {%if fecha.grouper == '4' %}db.set("04",{{fecha.list|length}});{% endif %}
+        {%if fecha.grouper == '5' %}db.set("05",{{fecha.list|length}});{% endif %}
+        {%if fecha.grouper == '6' %}db.set("06",{{fecha.list|length}});{% endif %}
+        {%if fecha.grouper == '7' %}db.set("07",{{fecha.list|length}});{% endif %}
+        {%if fecha.grouper == '8' %}db.set("08",{{fecha.list|length}});{% endif %}
+        {%if fecha.grouper == '9' %}db.set("09",{{fecha.list|length}});{% endif %}
+        {%if fecha.grouper == '10' %}db.set("10",{{fecha.list|length}});{% endif %}
+        {%if fecha.grouper == '11' %}db.set("11",{{fecha.list|length}});{% endif %}
+        {%if fecha.grouper == '12' %}db.set("12",{{fecha.list|length}});{% endif %}
+    {% endfor %}
+    const db_final = []
+    db.forEach (function(value, key){
+        db_final.push(value);
+    });
+    return db_final;
+}
+
 const myChart = new Chart(ctx, {
     type: 'bar',
     data: {
         labels: [
-            {% for art in articulos %}
-                '{{art.slug}}',
-            {% endfor %}
+                'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+                'Julio', 'Agosto', 'Septiembre', 'Noviembre', 'Diciembre'
         ],
         datasets: [
-            {% for art in articulos %}
                 {
-                    label: '# of Votes',
-                    data: [
-                        {{art.update|date:"n"}}
-                    ],
+                    label: 'Regimen de publicacion',
+                    data: datos(),
                     backgroundColor: 'rgba(255, 99, 132, 0.2)',
                     borderColor: 'rgb(75, 192, 192)',
                     borderWidth: 1
                 },
-            {% endfor %}
         ]
     },
     options: {

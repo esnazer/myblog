@@ -1,7 +1,9 @@
 from django.shortcuts import render, redirect
+from django.db.models import Sum, Avg
 from django.http import HttpResponse
 from django.views import View
 from blog.models import Categoria, Articulo
+
 
 # Create your views here.
 class Login(View):
@@ -37,7 +39,6 @@ class DashBoardView(View):
         cnt_articulos = Articulo.objects.count()
         cnt_categorias = Categoria.objects.count()
         articulos = Articulo.objects.filter().values()
-        print(articulos[0].get('update'))
         categorias = Categoria.objects.all()
         parmts = {
             'cnt_articulos': cnt_articulos,
