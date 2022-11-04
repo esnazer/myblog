@@ -9,65 +9,61 @@
 
 {% block subtitl %}Dashboard{% endblock %}
 {% block contenido %}
-<section class="content">  
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-lg-4 col-6">
-                <div class="card bg-info">
-                    <div class="card-body d-flex flex-col align-items-center">
-                        <div class="d-none d-md-inline flex-fill mx-3">
-                            <i class="fa-solid fa-newspaper text-dark" style="font-size: 50px;"></i>
-                        </div>
-                        <div class="flex-fill mx-2">
-                            <h4>Articulos</h4>
-                            <h2>{{cnt_articulos}}</h2>
-                        </div>
-                    </div>
-                    <a class="card-footer d-flex justify-content-center align-items-center" href="#">Gestionar&nbsp;
-                        <i class="fa-solid fa-file-pen"></i>
-                    </a>
+<div class="row">
+    <div class="col-lg-4 col-6">
+        <div class="card bg-info">
+            <div class="card-body d-flex flex-col align-items-center">
+                <div class="d-none d-md-inline flex-fill mx-3">
+                    <i class="fa-solid fa-newspaper text-dark" style="font-size: 50px;"></i>
+                </div>
+                <div class="flex-fill mx-2">
+                    <h4>Articulos</h4>
+                    <h2>{{cnt_articulos}}</h2>
                 </div>
             </div>
-            <div class="col-lg-4 col-6">
-                <div class="card bg-info">
-                    <div class="card-body d-flex flex-col align-items-center">
-                        <div class="d-none d-md-inline flex-fill mx-3">
-                            <i class="fas fa-chart-bar text-dark" style="font-size: 50px;"></i>
-                        </div>
-                        <div class="flex-fill mx-2">
-                            <h4>Categorias</h4>
-                            <h2>{{cnt_categorias}}</h2>
-                        </div>
-                    </div>
-                    <a class="card-footer d-flex justify-content-center align-items-center" href="#">Gestionar&nbsp;
-                        <i class="fa-solid fa-file-pen"></i>
-                    </a>
-                </div>
-            </div>
-            <div class="col-lg-4 col-6">
-                <div class="card bg-info">
-                    <div class="card-body d-flex flex-col align-items-center">
-                        <div class="d-none d-md-inline flex-fill mx-3">
-                            <i class="fa-solid fa-newspaper text-dark" style="font-size: 50px;"></i>
-                        </div>
-                        <div class="flex-fill mx-2">
-                            <h4>Comentarios</h4>
-                            <h2>0</h2>
-                        </div>
-                    </div>
-                    <a class="card-footer d-flex justify-content-center align-items-center" href="#">Gestionar&nbsp;
-                        <i class="fa-solid fa-file-pen"></i>
-                    </a>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="container-fluid">
-                <canvas id="myChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%; width: 100%;"></canvas>
-            </div>
+            <a class="card-footer d-flex justify-content-center align-items-center" href="#">Gestionar&nbsp;
+                <i class="fa-solid fa-file-pen"></i>
+            </a>
         </div>
     </div>
-</section>
+    <div class="col-lg-4 col-6">
+        <div class="card bg-info">
+            <div class="card-body d-flex flex-col align-items-center">
+                <div class="d-none d-md-inline flex-fill mx-3">
+                    <i class="fas fa-chart-bar text-dark" style="font-size: 50px;"></i>
+                </div>
+                <div class="flex-fill mx-2">
+                    <h4>Categorias</h4>
+                    <h2>{{cnt_categorias}}</h2>
+                </div>
+            </div>
+            <a class="card-footer d-flex justify-content-center align-items-center" href="#">Gestionar&nbsp;
+                <i class="fa-solid fa-file-pen"></i>
+            </a>
+        </div>
+    </div>
+    <div class="col-lg-4 col-6">
+        <div class="card bg-info">
+            <div class="card-body d-flex flex-col align-items-center">
+                <div class="d-none d-md-inline flex-fill mx-3">
+                    <i class="fa-solid fa-newspaper text-dark" style="font-size: 50px;"></i>
+                </div>
+                <div class="flex-fill mx-2">
+                    <h4>Comentarios</h4>
+                    <h2>0</h2>
+                </div>
+            </div>
+            <a class="card-footer d-flex justify-content-center align-items-center" href="#">Gestionar&nbsp;
+                <i class="fa-solid fa-file-pen"></i>
+            </a>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="container-fluid">
+        <canvas id="myChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%; width: 100%;"></canvas>
+    </div>
+</div>
 {% endblock %}
 
 {% block scripts %}
@@ -120,8 +116,8 @@ const myChart = new Chart(ctx, {
     type: 'bar',
     data: {
         labels: [
-                'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
-                'Julio', 'Agosto', 'Septiembre', 'Noviembre', 'Diciembre'
+            'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+            'Julio', 'Agosto', 'Septiembre', 'Noviembre', 'Diciembre'
         ],
         datasets: [
                 {

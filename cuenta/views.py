@@ -51,10 +51,13 @@ class DashBoardView(View):
 
 class ArticlesView(View):
     def get(self, request):
-        parmts = {}
-        return render(request, '', parmts)
+        articulos = Articulo.objects.all()
+        parmts = {
+            'articulos' : articulos
+        }
+        return render(request, 'adminblog/article.html', parmts)
 
 class CategoriesView(View):
     def get(self, request):
         parmts = {}
-        return render(request, '', parmts)
+        return render(request, 'adminblog/category.html', parmts)
