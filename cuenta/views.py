@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.urls import reverse, resolve
 from django.db.models import Sum, Avg
 from django.http import HttpResponse
 from django.views import View
@@ -56,6 +57,10 @@ class ArticlesView(View):
             'articulos' : articulos
         }
         return render(request, 'adminblog/article.html', parmts)
+    
+class AddArticlesView(View):
+    def post(self, request):
+        redirect(reverse('admin-articles-list'))
 
 class CategoriesView(View):
     def get(self, request):
