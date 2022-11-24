@@ -4,104 +4,96 @@
 {% block title %}Gestion de Articulos{% endblock %}
 
 {% block cdnbasic %}
+<script>
+  function setDelArticle(art){
+      window.localStorage.setItem('del_art',art);
+    }
+    function getValueDel(){
+      let valor = window.localStorage.getItem('del_art');
+      document.getElementById('del_art').value = valor;
+      document.delForm.submit();
+    }
+</script>
 <!-- DataTables -->
 <link rel="stylesheet" type="text/css" href="{% static 'plugins/datatables-bs4/css/dataTables.bootstrap4.min.css' %}">
 <link rel="stylesheet" type="text/css" href="{% static 'plugins/datatables-responsive/css/responsive.bootstrap4.min.css' %}">
 <link rel="stylesheet" type="text/css" href="{% static 'plugins/datatables-buttons/css/buttons.bootstrap4.min.css' %}">
 {% endblock %}
 
-{% block subtitl %}Articulos{% endblock %}
+{% block subtitl %}Listado de Articulos{% endblock %}
 
 {% block contenido %}
 <div class="card">
-    <div class="card-header"><h3 class="card-title">Titulo de la tabla</h3></div>
     <div class="card-body">
-        <div class="col-12 mb-2">
-            <div class="d-flex justify-content-end">
-                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#new_article">
-                    <i class="fa-solid fa-plus"> Nuevo</i>
-                </button>
-            </div>
+        <div class="row d-flex justify-content-center">
+          {% if messages %}
+          <ul class="messages">
+              {% for message in messages %}
+              <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+              {% endfor %}
+          </ul>
+          {% endif %}
         </div>
-        <table id="id_articulos" class="table table-bordered table-striped">
-            <thead>
-                <tr>
-                    <th>titulo</th>
-                    <th>Autor</th>
-                    <th>ultima actualizacion</th>
-                    <th>op</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for atr in articulos %}
-                    <tr>
-                        <th>{{atr.title}}</th>
-                        <th>{{atr.user}}</th>
-                        <th>{{atr.update}}</th>
-                        <th>
-                            <div class="d-flex">
-                                <i class="flex-fill fa-solid fa-pen-to-square text-primary" data-toggle="modal" data-target="#edit_article"></i>
-                                <i class="flex-fill fa-solid fa-trash text-danger" data-toggle="modal" data-target="#remove_article"></i>
-                            </div>
-                        </th>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+        <div class="row d-flex justify-content-end">
+            <a type="button" class="btn btn-default" href="{% url 'admin-articles-add' %}">
+                <i class="fa-solid fa-plus"> Nuevo</i>
+            </a>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <table id="id_articulos" class="table table-bordered table-striped">
+              <thead>
+                  <tr>
+                      <th>titulo</th>
+                      <th>Autor</th>
+                      <th>Categorias</th>
+                      <th>ultima actualizacion</th>
+                      <th>op</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  {% for atr in articulos %}
+                      <tr>
+                          <th>{{atr.title}}</th>
+                          <th>{{atr.user}}</th>
+                          <th>{% for catg in atr.categorias.all %}{{catg}}{%endfor%}</th>
+                          <th>{{atr.update}}</th>
+                          <th>
+                              <div class="d-flex">
+                                  <a href="{% url 'admin-articles-edit' atr.id %}" class="flex-fill">
+                                    <i class="fa-solid fa-pen-to-square text-primary"></i>
+                                  </a>
+                                  <i id="del" class="flex-fill fa-solid fa-trash text-danger" data-toggle="modal" data-target="#remove_article" onclick="setDelArticle({{atr.id}})"></i>
+                              </div>
+                          </th>
+                      </tr>
+                  {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
     </div>
 </div>
 <!-- Dialogos -->
-<div class="row">
-    <div class="modal fade" id="new_article">
-        <div class="modal-dialog modal-xl">
-          <form class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
-              <span data-dismiss="modal" aria-label="Close"><i class="fa-solid fa-close text-danger"></i></span>
-            </div>
-            <div class="modal-body">
-              ...
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary">Agregar</button>
-            </div>
+<div class="modal fade" id="remove_article">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">Esta seguro que desea eliminar el articulo</h5>
+          <span data-dismiss="modal" aria-label="Close"><i class="fa-solid fa-close text-danger"></i></span>
+        </div>
+        <div class="modal-body">
+          <p>Si elimina este articulo no podra recuperarlo, si solo esta buscando sacarlo de linea es mejor desabilitarlo</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+          <form action="{% url 'admin-articles-delete' %}" method="post" name="delForm">
+            <input type="hidden" id="del_art" name="del_art" value="0">
+            {% csrf_token %}
+            <button type="button" class="btn btn-primary" onclick="getValueDel()">Eliminar</button>
           </form>
         </div>
-    </div>
-    <div class="modal fade" id="edit_article">
-        <div class="modal-dialog modal-xl">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
-              <span data-dismiss="modal" aria-label="Close"><i class="fa-solid fa-close text-danger"></i></span>
-            </div>
-            <div class="modal-body">
-              ...
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary">Actualizar</button>
-            </div>
-          </div>
-        </div>
-    </div>
-    <div class="modal fade" id="remove_article">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="staticBackdropLabel">Esta seguro que desea eliminar el articulo</h5>
-              <span data-dismiss="modal" aria-label="Close"><i class="fa-solid fa-close text-danger"></i></span>
-            </div>
-            <div class="modal-body">
-              <p>Si elimina este articulo no podra recuperarlo, si solo esta buscando sacarlo de linea es mejor desabilitarlo</p>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-              <button type="button" class="btn btn-primary">Eliminar</button>
-            </div>
-          </div>
-        </div>
+      </div>
     </div>
 </div>
 {% endblock %}
@@ -128,5 +120,6 @@
         "buttons": ["copy", "csv", "excel", "pdf", "print"]
       }).buttons().container().appendTo('#id_articulos_wrapper .col-md-6:eq(0)');
     });
+    // localStorage.setItem(key, value); let lastname = localStorage.getItem(key); localStorage.removeItem(key);  localStorage.clear();//
   </script>
 {% endblock %}

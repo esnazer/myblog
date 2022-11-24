@@ -32,7 +32,7 @@ class Categoria(models.Model):
 class Articulo(models.Model):
     title = models.CharField(max_length=100)
     description = RichTextField(blank=True, null=True)
-    categorias = models.ManyToManyField(Categoria)
+    categorias = models.ManyToManyField(Categoria, default='1')
     slug = models.SlugField(unique=True, null=True, blank=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     create = models.DateField(auto_now=False, auto_now_add=True)
@@ -40,7 +40,7 @@ class Articulo(models.Model):
 
     @property
     def get_absolute_url(self):
-        return reverse('articulo-blog', args=(str(self.id)))
+        return reverse('articulo-blog', args=[self.id])
 
     def __str__(self) -> str:
         return self.title
