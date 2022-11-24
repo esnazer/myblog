@@ -1,0 +1,35 @@
+{% extends "adminblog/base_admin.html" %}
+{% load static %}
+
+{% block title %}Gestion de Categorias{% endblock %}
+
+{% block cdnbasic %}{% endblock %}
+
+{% block subtitl %}Crear nueva publicacion{% endblock %}
+
+{% block contenido %}
+<div class="card">
+    <div class="card-body">
+        <div class="row">
+            {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </div>
+        <div class="row">
+            <form action="{% url 'admin-articles-add' %}" method="post">
+                {% csrf_token %}
+                {{ form_new.media }}
+                {{ form_new.as_p }}
+                <a type="button" class="btn btn-secondary" href="{% url 'admin-articles-list' %}"><i class="fa-solid fa-chevron-left">volver</i></a>
+                <button type="submit" class="btn btn-primary"><i class="fa-solid fa-floppy-disk"> publicar</i></button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}{% endblock %}

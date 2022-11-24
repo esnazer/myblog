@@ -1,0 +1,24 @@
+{% extends "adminblog/base_admin.html" %}
+{% load static %}
+
+{% block title %}Gestion de Categorias{% endblock %}
+
+{% block cdnbasic %}{% endblock %}
+
+{% block subtitl %}Editar publicacion - ID: {{articulo}} {% endblock %}
+
+{% block contenido %}
+<div class="card">
+    <div class="card-body">
+        <form action="{% url 'admin-articles-edit' articulo %}" method="post">
+            {% csrf_token %}
+            {{ form_edit.media }}
+            {{ form_edit.as_p }}
+            <a type="button" class="btn btn-secondary" href="{% url 'admin-articles-list' %}"><i class="fa-solid fa-chevron-left">volver</i></a>
+            <button type="submit" class="btn btn-primary"><i class="fa-solid fa-floppy-disk"> actualizar</i></button>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}{% endblock %}
